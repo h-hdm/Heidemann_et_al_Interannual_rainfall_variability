@@ -17,9 +17,9 @@ Figure 3: Figure_3_Regression_OLR_hgt.m, Global_OLR_rain_regression_Oct_Apr.m, G
 
 Figure 4: Figure_4_regression_evap_sm.m, Australian_evap_rain_regression_Oct_Apr.m, Australian_smlagminus1_rainfall_regression_Oct_Apr.m
 
-Figure 5:
+Figure 5: 
 
-Figure 6:
+Figure 6: Figure_6_predictor_x_predictor_R_monthly.m, get_SST_indices_func.m, get_non_oceanic_indices_func.m, get_mjo_freq_func.m
 
 Figure 7: 
 
