@@ -17,10 +17,10 @@ Figure 3: Figure_3_Regression_OLR_hgt.m, Global_OLR_rain_regression_Oct_Apr.m, G
 
 Figure 4: Figure_4_regression_evap_sm.m, Australian_evap_rain_regression_Oct_Apr.m, Australian_smlagminus1_rainfall_regression_Oct_Apr.m
 
-Figure 5: 
+Figure 5: Figure_5_monthly_correlation_each_predictor, NA_rainfall_ts.m, get_SST_indices_func.m, get_non_oceanic_indices_func.m, get_mjo_freq_func.m
 
 Figure 6: Figure_6_predictor_x_predictor_R_monthly.m, get_SST_indices_func.m, get_non_oceanic_indices_func.m, get_mjo_freq_func.m
 
-Figure 7: 
+Figure 7: Figure_7_stacked_bar_plots_all_monthly.m, stepwiselm_calculation_all_ts.m, NA_rainfall_ts.m, get_SST_indices_func.m, get_non_oceanic_indices_func.m, get_mjo_freq_func.m, choose_months_stepwise.m, stepwiselm_table_func.m, manual_stepwiselm_func.m
 
 
