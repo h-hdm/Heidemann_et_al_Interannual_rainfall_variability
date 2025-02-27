@@ -1,11 +1,13 @@
-% plot figure 2 for paper: global maps with northern Australian rainfall
+% Figure 2 in Heidemann et al. (2025) 
+
+% Global maps with northern Australian rainfall
 % regressed onto SSTa and MSLP/850hPa winds 
 
 % data for SSTa regression generated and saved in :
-% Global_SSTa_rain_regression_Oct_Apr.m --> Slope_NA_rain_SSTa.mat
+% run Global_SSTa_rain_regression_Oct_Apr.m --> Slope_NA_rain_SSTa.mat
 
 % data for MSLP and low level winds generated and saved in: 
-% Global_MSLP_wind_rain_regression_Oct_Apr.m --> 'Slope_NA_rain_MSLP_wnd.mat'
+% run Global_MSLP_wind_rain_regression_Oct_Apr.m --> 'Slope_NA_rain_MSLP_wnd.mat'
 
 load 'Slope_NA_rain_SSTa.mat'
 
@@ -74,9 +76,11 @@ for m = 1:7
         
         
     end 
-
+    
+% significance
 month_P = month_P_all(:,:,m);
 
+% slope linear regression 
 input_plot = slope_matrix_SST_all(:,:,m);
 
 
@@ -180,7 +184,7 @@ for m = 1:7
         
     end 
 
-
+% significance 
 month_P = month_P_all(:,:,m);
 month_P(361,:)=month_P(360,:); 
 
@@ -190,6 +194,7 @@ month_P_uwnd(361,:)=month_P_uwnd(360,:);
 month_P_vwnd = month_P_vwnd_all(:,:,m);
 month_P_vwnd(361,:)=month_P_vwnd(360,:);  
 
+% slope linear regression 
 input_plot = slope_matrix_mslp_all(:,:,m);
 input_plot(361,:)=input_plot(360,:);
 
@@ -255,7 +260,7 @@ input_plot_vwnd(361,:)=input_plot_vwnd(360,:);
 
   hold on 
 
-% set here what the northern boundary is 
+% set the northern boundary 
 n_boundary = 90;
 n_bd=find(lat==n_boundary);
 input_plot_vwnd_sign(:,n_bd:end)=0;
@@ -323,13 +328,13 @@ annotation('textbox',[.47 .06 .1 .2],'String','(n)','FontSize',10,'FontWeight','
 
 %% save figure 
 % to make sure that contour lines are also saved in white (and not falsely
-% in black)!! 
+% in black)
 
 set(gcf,'InvertHardCopy','off');
 set(gcf,'color','w');
 
 
-print('Fig_1_Regr_NA_rainfall_SSTa_MSLP','-dtiff','-r300')
+print('Fig_2_Regr_NA_rainfall_SSTa_MSLP','-dtiff','-r300')
 
 
 
