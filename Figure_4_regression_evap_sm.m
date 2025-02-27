@@ -1,13 +1,13 @@
+% Figure 4 in Heidemann et al. (2025)
 
-
-% Figure 4 >> regression maps with 1) evaporation  and 2) soil moisture regressed onto norhtern Australian rainfall
+% regression coefficient maps between 1) evaporation  and 2) soil moisture regressed and northern Australian rainfall
 
 
 % data for evaporation regression generated and saved in :
-% Australian_evap_rain_regression_Oct_Apr.m --> Slope_NA_rain_evap.mat
+% run Australian_evap_rain_regression_Oct_Apr.m --> Slope_NA_rain_evap.mat
 
 % data for soil moisture generated and saved in: 
-% Australian_smlagminus1_rainfall_regression_Oct_Apr.m --> 'Slope_NA_rain_smlagminus1.mat'
+% run Australian_smlagminus1_rainfall_regression_Oct_Apr.m --> 'Slope_NA_rain_smlagminus1.mat'
 
 
 % load data 
@@ -117,7 +117,7 @@ end
     cb = colorbar
 
 
-    cb.Position = [0.9 0.58 0.017 0.34]; %adjust!
+    cb.Position = [0.9 0.58 0.017 0.34]; 
    
     cb.Label.String = '\beta (NA rainfall, evaporation anomaly, 1940-2023)'; 
 
@@ -193,7 +193,7 @@ for m = 1:7
     end 
 
 
-% insert plotting info here 
+
 month_P = month_P_all(:,:,m);
  
 
@@ -236,7 +236,7 @@ end
     cb2 = colorbar
 
 
-    cb2.Position = [0.9 0.1 0.017 0.35]; %adjust!
+    cb2.Position = [0.9 0.1 0.017 0.35]; 
     cb2.Label.String = {'\beta (NA rainfall, soil moisture lag-1 anomalies,';'1920-2023)'}; 
 
     cb2.FontSize=12;
@@ -291,8 +291,8 @@ annotation('textbox',[.46 .1 .1 .2],'String','(n)','FontSize',10,'FontWeight','b
 
 
 %% save figure 
-% to make sure that contour lines are also saved in white (and not falsele
-% in black)!! 
+% to make sure that contour lines are also saved in white (and not falsely
+% in black) 
 
 set(gcf,'InvertHardCopy','off');
 set(gcf,'color','w');
