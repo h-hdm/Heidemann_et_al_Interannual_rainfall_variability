@@ -1,12 +1,13 @@
-% script to generate Figure 5 in Heidemann et al. (2024)
+% Figure 5 in Heidemann et al. (2025)
 
 % matrix/image plot that shows the correlation between NW/NE Australian
-% rainfall and each included predictor, during each month between October and April (in one figure for NE and one figure for NW)
+% rainfall and each included predictor, during each month between October and April 
+% (in one figure for NE and one figure for NW Australia)
 
 
 
 % monthly correlation coefficient between 1) rainfall timeseries over a chosen region in Australia 
-% (coded for NE or NW Australia but easy to get other regions as well) 
+% (coded for NE or NW Australia) 
 % and 2) indices that are used as predictors in stepwise linear regression in this research  
 
 
