@@ -1,11 +1,13 @@
-% plot figure 3 for paper: global maps with northern Australian rainfall
-% regressed onto Z200 geopotential height and Outgoing longwave radiation 
+% Figure 3 in Heidemann et al. (2025)
+
+% Global maps with northern Australian rainfall
+% regressed onto Z200 geopotential height and Outgoing longwave radiation (OLR)
 
 % data for OLR regression generated and saved in :
-% Global_OLR_rain_regression_Oct_Apr.m --> Slope_NA_rain_OLR_NOAA.mat
+% run Global_OLR_rain_regression_Oct_Apr.m --> Slope_NA_rain_OLR_NOAA.mat
 
 % data for hgt generated and saved in: 
-% Global_hgt_z200_rain_regression_Oct_Apr.m --> 'Slope_NA_rain_hgtz200.mat'
+% run Global_hgt_z200_rain_regression_Oct_Apr.m --> 'Slope_NA_rain_hgtz200.mat'
 
 
 load 'Slope_NA_rain_hgtz200.mat'
@@ -115,7 +117,7 @@ end
     cb = colorbar
 
 
-    cb.Position = [0.9 0.6 0.017 0.34]; %adjust!
+    cb.Position = [0.9 0.6 0.017 0.34]; 
     % adjust label depending on the variable! 
     cb.Label.String = '\beta (NA rainfall, \phi 200hPa anomaly, 1920-2015)'; 
 
@@ -183,7 +185,7 @@ for m = 1:7
     end 
 
 
-% insert plotting info here 
+
 month_P = month_P_all(:,:,m);
  
 
@@ -220,7 +222,7 @@ end
     cb2 = colorbar
 
 
-    cb2.Position = [0.9 0.1 0.017 0.35]; %adjust!
+    cb2.Position = [0.9 0.1 0.017 0.35]; 
     cb2.Label.String = {'\beta (NA rainfall, OLR anomalies,';'1975-2023)'}; 
 
     cb2.FontSize=12;
@@ -274,7 +276,7 @@ annotation('textbox',[.47 .06 .1 .2],'String','(n)','FontSize',10,'FontWeight','
 
 %% save figure 
 % to make sure that contour lines are also saved in white (and not falsely
-% in black)!! 
+% in black)
 
 set(gcf,'InvertHardCopy','off');
 set(gcf,'color','w');
