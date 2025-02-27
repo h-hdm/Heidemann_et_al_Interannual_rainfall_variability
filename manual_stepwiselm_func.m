@@ -1,20 +1,25 @@
-% write function for manual stepwise linear regression 
+% manual stepwise linear regression 
 
-% uses previous knowledge about the predictors to include in the model from
-% built in matlab function stpwiselm 
-
-% first get rainfall timeseries, monthly, for NE and NW Australia
+% uses previous knowledge about predictors to include in the model from
+% built in matlab function stpwiselm or elsewhere
 
 % need timeseries for response variable and the predictors --> add
 % predictor variable time series in correct order as varargin
 
 function [r2_total_adjusted,varargout] = manual_stepwiselm_func(response_variable,varargin)
 
+%-------------------------
+% r2_total_adjusted: The adjusted R2 value for the final model, which is an indicator 
+% of the model's goodness-of-fit while accounting for the number of predictors.
+
+% varargout: Optional output arguments returned by the stepwiselm function, which can 
+% include various details of the stepwise regression process.
+
+
 nout = max(nargout,1) - 1;
 
 
 % next get predictors - to be calculated in another script first 
-
 
 
 % 2) perform stepwise linear regression (with decision about which predictors
@@ -39,14 +44,14 @@ for i = 1:length(varargin) % number of predictors
     P1_summary = [R_1 pval_1 R_squ_1]; % Corrcoef, p value and R squared 
     varargout{i} = P1_summary;
     
-    % now get error term 
+    % error term 
     residual_1 = response_variable-fitted_y;
 
     if length(varargin)==1
         r2_total_adjusted = R_squ_1;
     end 
 
-% get R squared for second predictor 
+% R squared for second predictor 
     elseif i==2 
 %     [p,S] = polyfit(predictor_2,residual_1,1);
     [p,S] = polyfit(varargin{i},residual_1,1);
@@ -61,7 +66,7 @@ for i = 1:length(varargin) % number of predictors
     % next residual 
     residual_2 = residual_1 - fitted_y; 
     
-    % get total r squared adjusted for number of predictors 
+    % total r squared adjusted for number of predictors 
     r2_12 = R_squ_1+R_sq_2;
     
     n =length(residual_2); 
@@ -75,7 +80,7 @@ for i = 1:length(varargin) % number of predictors
     end 
     
 
-% get R squared for third predictor 
+% R squared for third predictor 
 
     elseif i==3
     
@@ -95,7 +100,7 @@ for i = 1:length(varargin) % number of predictors
     P3_summary = [R_3 pval_3 r_squared_3]; % Corrcoef, p value and R squared 
     varargout{i} = P3_summary;
     
-    % get residual 
+    % residual 
     residual_3 = input_rainfall_resid - fitted_y; 
     r2_123 = R_squ_1+R_sq_2+r_squared_3;
 
@@ -110,7 +115,7 @@ for i = 1:length(varargin) % number of predictors
     end 
 
 
-% get R squared for 4th predictor 
+% R squared for 4th predictor 
 
     elseif i==4
 
@@ -130,7 +135,7 @@ for i = 1:length(varargin) % number of predictors
         P4_summary = [R_4 pval_4 r_squared_4]; % Corrcoef, p value and R squared
         varargout{i} = P4_summary;
 
-        % get residual 
+        % residual 
         residual_4 = input_rainfall_resid - fitted_y; 
 
         r2_1234 = R_squ_1+R_sq_2+r_squared_3+r_squared_4;
@@ -162,7 +167,7 @@ for i = 1:length(varargin) % number of predictors
         P5_summary = [R_5 pval_5 r_squared_5]; % Corrcoef, p value and R squared
         varargout{i} = P5_summary;
 
-        % get residual 
+        % residual 
         residual_5 = input_rainfall_resid - fitted_y; 
 
         r2_12345 = R_squ_1+R_sq_2+r_squared_3+r_squared_4+r_squared_5;
@@ -194,7 +199,7 @@ for i = 1:length(varargin) % number of predictors
         P6_summary = [R_6 pval_6 r_squared_6]; % Corrcoef, p value and R squared
         varargout{i} = P6_summary;
         
-        % get residual 
+        % residual 
         residual_6 = input_rainfall_resid - fitted_y; 
 
         r2_123456 = R_squ_1+R_sq_2+r_squared_3+r_squared_4+r_squared_5+r_squared_6;
@@ -227,7 +232,7 @@ for i = 1:length(varargin) % number of predictors
         P7_summary = [R_7 pval_7 r_squared_7]; % Corrcoef, p value and R squared
         varargout{i} = P7_summary;
 
-        % get residual 
+        % residual 
         residual_7 = input_rainfall_resid - fitted_y; 
         r2_1234567 = R_squ_1+R_sq_2+r_squared_3+r_squared_4+r_squared_5+r_squared_6+r_squared_7;
 
