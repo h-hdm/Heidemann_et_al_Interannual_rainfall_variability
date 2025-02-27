@@ -1,4 +1,4 @@
-% get MJO metrics - needed for Figures 5,6 and 7
+% get MJO metrics - needed for Figures 5,6 and 7 (Heidemann et al. 2025)
 
 % MJO phases 4,5,6 used in Heidemann et al. (2025) to represent convectively active phases
 % MJO phases 8,1 used in Heidemann et al. (2025) to represent convectively suppressed phases 
