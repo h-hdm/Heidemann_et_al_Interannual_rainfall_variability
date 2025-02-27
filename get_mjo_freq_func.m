@@ -1,9 +1,9 @@
 % get MJO metrics - needed for Figures 5,6 and 7
 
-% MJO phases 4,5,6 used in Heidemann et al. 2024 to represent convectively active phases
-% MJO phases 8,1 used in Heidemann et al. 2024 to represent convectively suppressed phases 
+% MJO phases 4,5,6 used in Heidemann et al. (2025) to represent convectively active phases
+% MJO phases 8,1 used in Heidemann et al. (2025) to represent convectively suppressed phases 
 
-% 3 MJO combinatios: MJO inactive, MJO phases 8,1 and
+% works for 4 MJO combinatios: MJO inactive, MJO phases 8,1 and
 % MJO phases 4,5,6 or 5,6,7
 
 function [MJO_456_std,MJO_567_std,MJO_81_std,MJO_inactive_std]=get_mjo_freq_func
@@ -25,13 +25,13 @@ MJO_phases_inactive = ncread(fid,'MJO_phases_inactive');
 
 
 
-% Total number of days in phases 4,5,6 or 5,6,7 --> convectively active MJO
+% Total number of days in phases 4,5,6 or 5,6,7 --> convectively active MJO options
 MJO_567 = MJO_phase5+MJO_phase6+MJO_phase7;
 MJO_456 = MJO_phase4+MJO_phase5+MJO_phase6;
 
 
 
-% suppressed MJO phases:
+% suppressed MJO phases options:
 MJO_81 = MJO_phase8+MJO_phase1;
 MJO_781 = MJO_phase7+MJO_phase8+MJO_phase1;
 MJO_78 = MJO_phase7+MJO_phase8;
@@ -102,7 +102,7 @@ MJO_78 = MJO_phase7+MJO_phase8;
         MJO_inactive_std(i_dx,:)=(MJO_detr-mean(MJO_detr))/std(MJO_detr);
     end
 
-% also detrend and standardise single phases in case I need them 
+% also detrend and standardise single phases  
 
 MJO_1_std = zeros(size(MJO_phase1));
 MJO_2_std = zeros(size(MJO_phase2));
