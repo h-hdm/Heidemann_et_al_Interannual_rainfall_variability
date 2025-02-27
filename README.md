@@ -26,3 +26,4 @@ Figure 6: Figure_6_predictor_x_predictor_R_monthly.m, get_SST_indices_func.m, ge
 Figure 7: Figure_7_stacked_bar_plots_improved.m, stepwiselm_calculation_all_ts.m, NA_rainfall_ts.m, get_SST_indices_func.m, get_non_oceanic_indices_func.m, get_mjo_freq_func.m, choose_months_stepwise.m, stepwiselm_table_func.m, manual_stepwiselm_func.m
 
 
+Output generated using Matlab R2022b. 
