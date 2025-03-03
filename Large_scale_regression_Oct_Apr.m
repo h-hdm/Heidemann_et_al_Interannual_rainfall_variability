@@ -34,7 +34,12 @@ if start_year < years_available(1) || end_year > years_available(end) || start_y
     error('Invalid year range. Please select within available data.');
 end
 
-time_frame_2 = find(years_available >= start_year & years_available <= end_year-1);
+
+if end_year == 2023
+    time_frame_2 = find(years_available >= start_year & years_available <= end_year-1);
+else
+    time_frame_2 = find(years_available >= start_year & years_available <= end_year);
+end 
 
 
 input_rainfall_1 = precip(:,:,:,time_frame_2); 
