@@ -23,8 +23,8 @@
 
 
  % feedbacks and other non-SST indices 
-    [~,~,~,~,...
-    ~,~,~,AM_SAM]=get_non_oceanic_indices_func('1975-2023');  
+     [yearly_T,SM_NE_anom_std,SM_NW_anom_std,etot_NE_anom_std,...
+    etot_NW_anom_std,evap,TBO,AM_SAM]=get_non_oceanic_indices_func('1975-2023'); 
 
 
     [MJO_456_std,MJO_567_std,MJO_81_std,MJO_inactive_std]=get_mjo_freq_func; 
