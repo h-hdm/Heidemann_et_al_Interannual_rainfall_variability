@@ -27,7 +27,7 @@ load('AWAP_rainfall_1900_2023');
 
 
 years_available = 1900:2023;
-disp(['Available years: ', num2str(years_available(1)), ' to ', num2str(years_available(end))]);
+disp(['Available years rainfall: ', num2str(years_available(1)), ' to ', num2str(years_available(end))]);
 
 
 if start_year < years_available(1) || end_year > years_available(end) || start_year >= end_year
@@ -87,7 +87,7 @@ if strcmp('SST',large_scale_variable)
     lat = glat;
     
     years_available = 1870:2023;
-    disp(['Available years: ', num2str(years_available(1)), ' to ', num2str(years_available(end))]);
+    disp(['Available years SST: ', num2str(years_available(1)), ' to ', num2str(years_available(end))]);
     
     if start_year < years_available(1) || end_year > years_available(end) || start_year >= end_year
         error('Invalid year range. Please select within available data.');
@@ -118,7 +118,7 @@ elseif strcmp('MSLP',large_scale_variable)
     [Lon1,Lat1] = meshgrid(lat,lon1);
     
     years_available = 1836:2015;
-    disp(['Available years: ', num2str(years_available(1)), ' to ', num2str(years_available(end))]);
+    disp(['Available years MSLP: ', num2str(years_available(1)), ' to ', num2str(years_available(end))]);
     
     if start_year < years_available(1) || end_year > years_available(end) || start_year >= end_year
         error('Invalid year range. Please select within available data.');
@@ -150,7 +150,7 @@ elseif strcmp('850hPa uwnd',large_scale_variable)
     load 20CRv3_uwnd.mat
 
     years_available = 1836:2015;
-    disp(['Available years: ', num2str(years_available(1)), ' to ', num2str(years_available(end))]);
+    disp(['Available years uwnd: ', num2str(years_available(1)), ' to ', num2str(years_available(end))]);
     
     if start_year < years_available(1) || end_year > years_available(end) || start_year >= end_year
         error('Invalid year range. Please select within available data.');
@@ -181,7 +181,7 @@ elseif strcmp('850hPa vwnd',large_scale_variable)
     load 20CRv3_vwnd.mat
 
     years_available = 1836:2015;
-    disp(['Available years: ', num2str(years_available(1)), ' to ', num2str(years_available(end))]);
+    disp(['Available years vwnd: ', num2str(years_available(1)), ' to ', num2str(years_available(end))]);
     
     if start_year < years_available(1) || end_year > years_available(end) || start_year >= end_year
         error('Invalid year range. Please select within available data.');
@@ -214,7 +214,7 @@ elseif strcmp('200hPa hgt',large_scale_variable)
     [Lon1,Lat1] = meshgrid(lat,lon1);
         
     years_available = 1836:2015;
-    disp(['Available years: ', num2str(years_available(1)), ' to ', num2str(years_available(end))]);
+    disp(['Available years hgt: ', num2str(years_available(1)), ' to ', num2str(years_available(end))]);
     
     if start_year < years_available(1) || end_year > years_available(end) || start_year >= end_year
         error('Invalid year range. Please select within available data.');
@@ -244,7 +244,7 @@ elseif strcmp('evaporation',large_scale_variable)
     load ('Evap_ERA5.mat','lon','lat','evap')
 
     years_available = 1940:2023;
-    disp(['Available years: ', num2str(years_available(1)), ' to ', num2str(years_available(end))]);
+    disp(['Available years evaporation: ', num2str(years_available(1)), ' to ', num2str(years_available(end))]);
     
     if start_year < years_available(1) || end_year > years_available(end) || start_year >= end_year
         error('Invalid year range. Please select within available data.');
@@ -284,7 +284,7 @@ elseif strcmp('soil moisture lag-1',large_scale_variable)
     lat = ncread(fid,'latitude');
 
     years_available = 1920:2023;
-    disp(['Available years: ', num2str(years_available(1)), ' to ', num2str(years_available(end))]);
+    disp(['Available years soil moisture: ', num2str(years_available(1)), ' to ', num2str(years_available(end))]);
     
     if start_year < years_available(1) || end_year > years_available(end) || start_year >= end_year
         error('Invalid year range. Please select within available data.');
@@ -320,7 +320,7 @@ else
 
 
     years_available = 1975:2023;
-    disp(['Available years: ', num2str(years_available(1)), ' to ', num2str(years_available(end))]);
+    disp(['Available years OLR: ', num2str(years_available(1)), ' to ', num2str(years_available(end))]);
     
     if start_year < years_available(1) || end_year > years_available(end) || start_year >= end_year
         error('Invalid year range. Please select within available data.');
