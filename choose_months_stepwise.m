@@ -5,8 +5,7 @@ function [response_variable,CP,EP,Coral,Timor,Arafura,DMI,IOBW,TPI,Ningaloo,Nino
      Arafura_std,IOBW_std,TPI_filt,Ningaloo_std,C_std,E_std,SM_NE_anom_std,SM_NW_anom_std,etot_NE_anom_std,...
     etot_NW_anom_std,varargin)
 
-% to tidy up my script
-% needs to first run: 
+% needs to run: 
 % 1) NA_rainfall_ts
 % 2) get_SST_indices_func
 % 3) get_non_oceanic_indices_func
