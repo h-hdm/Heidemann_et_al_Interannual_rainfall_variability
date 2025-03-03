@@ -1,4 +1,4 @@
-% get SST Indices for Stepwise linear regression (detrended and
+% Get SST Indices for Stepwise linear regression (detrended and
 % standardised), using a specified time period 
 
 function [Nino34_std,CP_std,EP_std,DMI_std,Coral_std,Timor_std,Arafura_std,IOBW_std,TPI_filt,Ningaloo_std,C_std,E_std,yearly_T]=get_SST_indices_func(time_period)
@@ -7,85 +7,55 @@ function [Nino34_std,CP_std,EP_std,DMI_std,Coral_std,Timor_std,Arafura_std,IOBW_
 % Nino 3.4, CP ENSO Index, EP ENSO Index, DMI, Coral Sea, Timor Sea,
 % Arafura Seas, IOBW, Tripole Index, Ningaloo Nino, C index, E index, time  
 
-% load HadISST SST data, calculate anomaly 
+% Load HadISST SST data, calculate anomaly 
 load 'HadISST_1870_2023.mat'
 [Lon,Lat] = meshgrid(glat,glon);
 
 
-% 1) calculate anomaly and regrid data 
-if strcmp('1920-2023',time_period) 
+% 1) Calculate anomaly and regrid data 
+% Ensure time_period is a string (handle char input)
+    if ischar(time_period)
+        time_period = string(time_period); 
+    end
+
+% Split input string at '-' and convert to numbers
+
+    year_parts = split(time_period, '-'); 
+    start_year = str2double(year_parts(1));
+    end_year = str2double(year_parts(2));
+
+    years_available = 1870:2023;
+    disp(['Available years: ', num2str(years_available(1)), ' to ', num2str(years_available(end))]);
     
-    t1 = datetime(1920,1,15,0,0,0);
-    t2 = datetime(2022,12,15,0,0,0);
+    if start_year < years_available(1) || end_year > years_available(end) || start_year >= end_year
+        error('Invalid year range. Please select within available data.');
+    end   
+
+    time_frame_1 = find(years_available >= start_year & years_available <= end_year-1);
+   
+    SST_climatology = squeeze(nanmean(SST_resized(:,:,:,time_frame_1), 4));
+    SST_anom = SST_resized(:,:,:,time_frame_1) - SST_climatology;
+    SST_anomaly_ts = reshape(SST_anom,[length(glon) length(glat) 12 length(time_frame_1)]);
+
+    t1 = datetime(start_year,1,15,0,0,0);
+    t2 = datetime(end_year-1,12,15,0,0,0);
     yearly_T = (t1:calendarDuration(1,0,0,0,0,0):t2)';
     monthly_T = (t1:calendarDuration(0,1,0,0,0,0):t2)';
-    SST_climatology = squeeze(nanmean(SST_resized(:,:,:,51:153),4));
-    SST_anom = SST_resized(:,:,:,51:153)- SST_climatology;
-    SST_anomaly_ts = reshape(SST_anom,[360,180,103*12]);
-
-elseif strcmp('1940-2023',time_period) 
-    
-    t1 = datetime(1940,1,15,0,0,0);
-    t2 = datetime(2022,12,15,0,0,0);
-    yearly_T = (t1:calendarDuration(1,0,0,0,0,0):t2)';
-    monthly_T = (t1:calendarDuration(0,1,0,0,0,0):t2)';
-    SST_climatology = squeeze(nanmean(SST_resized(:,:,:,71:153),4));
-    SST_anom = SST_resized(:,:,:,71:153)- SST_climatology;
-    SST_anomaly_ts = reshape(SST_anom,[360,180,83*12]);
-
-elseif strcmp('1957-2023',time_period) 
-    
-    t1 = datetime(1957,1,15,0,0,0);
-    t2 = datetime(2022,12,15,0,0,0);
-    yearly_T = (t1:calendarDuration(1,0,0,0,0,0):t2)';
-    monthly_T = (t1:calendarDuration(0,1,0,0,0,0):t2)';
-    SST_climatology = squeeze(nanmean(SST_resized(:,:,:,88:153),4));
-    SST_anom = SST_resized(:,:,:,88:153)- SST_climatology;
-    SST_anomaly_ts = reshape(SST_anom,[360,180,66*12]);
-
-elseif strcmp('1959-2023',time_period) 
-    
-    t1 = datetime(1959,1,15,0,0,0);
-    t2 = datetime(2022,12,15,0,0,0);
-    yearly_T = (t1:calendarDuration(1,0,0,0,0,0):t2)';
-    monthly_T = (t1:calendarDuration(0,1,0,0,0,0):t2)';
-    SST_climatology = squeeze(nanmean(SST_resized(:,:,:,90:153),4));
-    SST_anom = SST_resized(:,:,:,90:153)- SST_climatology;
-    SST_anomaly_ts = reshape(SST_anom,[360,180,64*12]);
-    
-
-elseif strcmp('1975-2023',time_period)
-    
-    t1 = datetime(1975,1,15,0,0,0);
-    t2 = datetime(2022,12,15,0,0,0);
-    yearly_T = (t1:calendarDuration(1,0,0,0,0,0):t2)';
-    monthly_T = (t1:calendarDuration(0,1,0,0,0,0):t2)';
-    SST_climatology = squeeze(nanmean(SST_resized(:,:,:,106:153),4));
-    SST_anom = SST_resized(:,:,:,106:153)- SST_climatology;
-    SST_anomaly_ts = reshape(SST_anom,[360,180,48*12]);
 
 
-
-else
-
-    
-    
-end
-
-
-% regrid first, then calculate SST Indices
+% Regrid first, then calculate SST Indices
 lon1 = [-179.5:0.5:179.5]';
 lat1 = flipud([-89.5:0.5:89.5]');
 [Lon1,Lat1] = meshgrid(lon1,lat1);
 
 SSTa = flipud(rot90(SST_anomaly_ts));
 
-% grid of original coordinates, set up for interpolation in next step
+% Grid of original coordinates, set up for interpolation in next step
 [Glon, Glat] = meshgrid(glon,glat);
 
 n = length(SSTa);
 
-% the default is linear interpolation
+% The default is linear interpolation
 XSSTa  = zeros(359,719,n);
 
 for i = 1:n
@@ -96,7 +66,8 @@ end
 
 Anomaly_ts = XSSTa;
 
-% 2) calculate SST Indices, then detrend and standardise
+
+% 2) Calculate SST Indices, then detrend and standardise
 
 
 % Nino 3.4
@@ -113,7 +84,7 @@ for i_dx = 1:12
 Nino34_detr(i_dx,:)=detrend(Nino34_reshaped(i_dx,:));
 end
 
-% standardize
+% Standardize
 Nino34_std = zeros(size(Nino34_detr));
 for i_dx = 1:12
 Nino34_std(i_dx,:)=(Nino34_detr(i_dx,:)-mean(Nino34_detr(i_dx,:)))/std(Nino34_detr(i_dx,:));
@@ -135,7 +106,7 @@ for i_dx = 1:12
 Nino4_detr(i_dx,:)=detrend(Nino4_reshaped(i_dx,:));
 end
 
-% standardize
+% Standardize
 Nino4_std = zeros(size(Nino4_detr));
 for i_dx = 1:12
 Nino4_std(i_dx,:)=(Nino4_detr(i_dx,:)-mean(Nino4_detr(i_dx,:)))/std(Nino4_detr(i_dx,:));
@@ -155,7 +126,7 @@ for i_dx = 1:12
 Nino3_detr(i_dx,:)=detrend(Nino3_reshaped(i_dx,:));
 end
 
-% standardize
+% Standardize
 Nino3_std = zeros(size(Nino3_detr));
 for i_dx = 1:12
 Nino3_std(i_dx,:)=(Nino3_detr(i_dx,:)-mean(Nino3_detr(i_dx,:)))/std(Nino3_detr(i_dx,:));
@@ -164,14 +135,14 @@ end
 % CP ENSO
 CP_Index = Nino4_Index-(0.4*Nino3_Index);
 
-% detrend each month separately
+% Detrend each month separately
 CP_reshaped = reshape(CP_Index,[12 length(yearly_T)]);
 CP_detr = zeros(size(CP_reshaped));
 for i_dx = 1:12
 CP_detr(i_dx,:)=detrend(CP_reshaped(i_dx,:));
 end
 
-% standardize
+% Standardize
 CP_std = zeros(size(CP_detr));
 for i_dx = 1:12
 CP_std(i_dx,:)=(CP_detr(i_dx,:)-mean(CP_detr(i_dx,:)))/std(CP_detr(i_dx,:));
@@ -182,38 +153,17 @@ end
 % EP ENSO
 EP_Index = Nino3_Index-(0.4*Nino4_Index);
 
-% detrend each month separately
+% Detrend each month separately
 EP_reshaped = reshape(EP_Index,[12 length(yearly_T)]);
 EP_detr = zeros(size(EP_reshaped));
 for i_dx = 1:12
 EP_detr(i_dx,:)=detrend(EP_reshaped(i_dx,:));
 end
 
-% standardize
+% Standardize
 EP_std = zeros(size(EP_detr));
 for i_dx = 1:12
 EP_std(i_dx,:)=(EP_detr(i_dx,:)-mean(EP_detr(i_dx,:)))/std(EP_detr(i_dx,:));
-end
-
-% SST north of Australia - following Hendon et al. 2012
-North_Aus_lon = 560:680; % 100 E to 160 E 
-North_Aus_lat = 190:210; % 5 S to 15 S 
-Index_lat = North_Aus_lat;
-Index_lon = North_Aus_lon;
-North_Aus_Index = nanmean(Anomaly_ts(Index_lat,Index_lon,:));
-North_Aus_Index = squeeze(nanmean(North_Aus_Index));
-
-% detrend each month separately
-North_Aus_reshaped = reshape(North_Aus_Index,[12 length(yearly_T)]);
-North_Aus_detr = zeros(size(North_Aus_reshaped));
-for i_dx = 1:12
-North_Aus_detr(i_dx,:)=detrend(North_Aus_reshaped(i_dx,:));
-end
-
-% standardize
-North_Aus_std = zeros(size(North_Aus_detr));
-for i_dx = 1:12
-North_Aus_std(i_dx,:)=(North_Aus_detr(i_dx,:)-mean(North_Aus_detr(i_dx,:)))/std(North_Aus_detr(i_dx,:));
 end
 
 
@@ -231,40 +181,20 @@ DMI_east = squeeze(nanmean(DMI_east,1));
     
 DMI = DMI_west - DMI_east;
 
-% detrend each month separately
+% Detrend each month separately
 DMI_reshaped = reshape(DMI,[12 length(yearly_T)]);
 DMI_detr = zeros(size(DMI_reshaped));
 for i_dx = 1:12
 DMI_detr(i_dx,:)=detrend(DMI_reshaped(i_dx,:));
 end
 
-   % standardize
+   % Standardize
 DMI_std = zeros(size(DMI_detr));
 for i_dx = 1:12
 DMI_std(i_dx,:)=(DMI_detr(i_dx,:)-mean(DMI_detr(i_dx,:)))/std(DMI_detr(i_dx,:));
 end
 
 
-% DMI west box only 
-DMI_west_detr = detrend(DMI_west);
-DMI_west_detr= reshape(DMI_west_detr,[12 length(yearly_T)]);
-   % standardize
-DMI_west_std = zeros(size(DMI_west_detr));
-for i_dx = 1:12
-DMI_west_std(i_dx,:)=(DMI_west_detr(i_dx,:)-mean(DMI_west_detr(i_dx,:)))/std(DMI_west_detr(i_dx,:));
-end
-
-% DMI east box only 
-DMI_east_detr = detrend(DMI_east);
-DMI_east_detr= reshape(DMI_east_detr,[12 length(yearly_T)]);
-   % standardize
-DMI_east_std = zeros(size(DMI_east_detr));
-for i_dx = 1:12
-DMI_east_std(i_dx,:)=(DMI_east_detr(i_dx,:)-mean(DMI_east_detr(i_dx,:)))/std(DMI_east_detr(i_dx,:));
-end
-
-clear DMI_west
-clear DMI_east
 
 % IPO Tripole Index (unfiltered)
 TPI_1_lon = 1:80;
@@ -274,7 +204,7 @@ TPI_1_lat = 90:130;
 TPI_1 =  squeeze(nanmean(Anomaly_ts(TPI_1_lat,TPI_1_lon,:),1));
 TPI_1 =  squeeze(nanmean(TPI_1,1));
 
-% look these coordinated up in lat1 and lon1
+% Look these coordinated up in lat1 and lon1
 TPI_2_lon = 700:719;
 TPI_2_lon(21:200) = 1:180 ;
 TPI_2_lat = 160:200;
@@ -289,29 +219,23 @@ TPI_3_lat = 210:280;
 TPI_3 =  squeeze(nanmean(Anomaly_ts(TPI_3_lat,TPI_3_lon,:),1));
 TPI_3 =  squeeze(nanmean(TPI_3,1));
 
-% compute unfiltered TPI
+% Compute unfiltered TPI
 TPI = TPI_2 - ((TPI_1+TPI_3)/2);
 
-% TPI_detr = detrend(TPI);
-%TPI_filt = filt1('lp',TPI_detr,'Tc',13*12,'order',6);
-% TPI_input = TPI_detr;
-% TPI_input= reshape(TPI_input,[12 103]);
-
-
-% detrend each month separately
+% Detrend each month separately
 TPI_reshaped = reshape(TPI,[12 length(yearly_T)]);
 TPI_detr = zeros(size(TPI_reshaped));
 for i_dx = 1:12
 TPI_detr(i_dx,:)=detrend(TPI_reshaped(i_dx,:));
 end
 
-   % standardize
+% Standardize
 TPI_std = zeros(size(TPI_detr));
 for i_dx = 1:12
 TPI_std(i_dx,:)=(TPI_detr(i_dx,:)-mean(TPI_detr(i_dx,:)))/std(TPI_detr(i_dx,:));
 end
 
-% first standardise then filter?
+% Filter
 TPI= reshape(TPI_std,[1 12*length(yearly_T)]);
 TPI_filt = filt1('lp',TPI,'Tc',13*12,'order',6);
 TPI_filt = reshape(TPI_filt,[12 length(yearly_T)]);
@@ -328,8 +252,7 @@ lon_bound = 431:601;
 
 SSTa_equat_IO = Anomaly_ts(lat_bound,lon_bound,:);
 
-% detrend 
-% detrend each month separately
+% Detrend each month separately
 IO_reshaped = reshape(SSTa_equat_IO ,[106 171 12 length(yearly_T)]);
 IO_detr = zeros(size(IO_reshaped));
 for i_dx = 1:12
@@ -352,7 +275,7 @@ for i = 1:length(lat_bound)
 
 end
 
-% eof and pc calculation 
+% Eof and Pc calculation 
 
 [eofmap,pc,expv] = eof(SSTa_equat_IO_detr);
 
@@ -365,7 +288,7 @@ for i_dx = 1:12
 IOBW_std(i_dx,:)=(IOBW_Index(i_dx,:)-mean(IOBW_Index(i_dx,:)))/std(IOBW_Index(i_dx,:));
 end
 
-% note that when the time period 1975 to 2023 is chose, pcs have sign other
+% Note that when the time period 1975 to 2023 is chosen, pcs have sign other
 % way round! so need to change sign of PC to be consistent with PCs using
 % other time periods 
 if strcmp('1975-2023',time_period)
@@ -395,28 +318,6 @@ end
 Coral_std = zeros(size(Coral_detr));
 for i_dx = 1:12
 Coral_std(i_dx,:)=(Coral_detr(i_dx,:)-mean(Coral_detr(i_dx,:)))/std(Coral_detr(i_dx,:));
-end
-
-% Gulf of Carpentaria
-Gulf_lon = 620:650; % 130E to 145E
-Gulf_lat = 200:220; % 10 S to 20 S
-
-Index_lat = Gulf_lat;
-Index_lon = Gulf_lon;   
-Gulf_Index = nanmean(Anomaly_ts(Index_lat,Index_lon,:));
-Gulf_Index = squeeze(nanmean(Gulf_Index));
-
-% detrend each month separately
-Gulf_reshaped = reshape(Gulf_Index,[12 length(yearly_T)]);
-Gulf_detr = zeros(size(Gulf_reshaped));
-for i_dx = 1:12
-Gulf_detr(i_dx,:)=detrend(Gulf_reshaped(i_dx,:));
-end
-
-% standardize
-Gulf_std = zeros(size(Gulf_detr));
-for i_dx = 1:12
-Gulf_std(i_dx,:)=(Gulf_detr(i_dx,:)-mean(Gulf_detr(i_dx,:)))/std(Gulf_detr(i_dx,:));
 end
 
 
@@ -458,7 +359,6 @@ for i_dx = 1:12
 Timor_detr(i_dx,:)=detrend(Timor_reshaped(i_dx,:));
 end
 
-
 % standardize
 Timor_std = zeros(size(Timor_detr));
 for i_dx = 1:12
@@ -469,12 +369,10 @@ end
 
 % Ningaloo Nino Index - EOF of region 100E-120E, 14S-36S 
 lat_bound=208:252; % 14S-36S     
- 
 lon_bound = 560:600; %100E-120E
 
 SSTa_Ningaloo = Anomaly_ts(lat_bound,lon_bound,:);
 
-% detrend 
 % detrend each month separately
 
 IO_reshaped = reshape(SSTa_Ningaloo ,[45 41 12 max_idx]);
@@ -498,7 +396,7 @@ for i = 1:length(lat_bound)
 
 end
 
-% now eof and pc calculation (first two modes of variability and principal
+% Eof and pc calculation (first two modes of variability and principal
 % component timeseries
 
 [eofmap,pc,expv] = eof(SSTa_Ningaloo_detr);
@@ -516,16 +414,16 @@ end
 
 % E and C Indices by Takahashi - for comparison 
 
-% now choose area: equatorial Pacific 10S to 10N
+% Equatorial Pacific 10S to 10N
 lat_bound=160:200; % 10N-10S     75:106 15N-15S
 lon1_bound = 640:719; % 140E-180E
 lon2_bound = 1:200; % 180W-80W
 lon_bound = [lon1_bound lon2_bound];
 
-% variable with only equtorial Pacific SSTa (detrended)
+% Variable with only equtorial Pacific SSTa (detrended)
 SSTa_equat_pac = Anomaly_ts(lat_bound,lon_bound,:);
 
-% detrend each month separately
+% Detrend each month separately
 Equat_pac_reshaped = reshape(SSTa_equat_pac ,[41 280 12 length(yearly_T)]);
 Eqat_pac_detr = zeros(size(Equat_pac_reshaped));
 for i_dx = 1:12
