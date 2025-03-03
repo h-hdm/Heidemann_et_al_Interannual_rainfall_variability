@@ -2,6 +2,8 @@
 % This script calculates regression coefficients for different climate variables (e.g., SST, MSLP, winds, evaporation) against rainfall anomalies.
 % saves output as .mat file for quicker plotting 
 
+% replaces individual scripts for variable
+
 % 1) set time frame to analyse 
 
 start_year = 1975;
