@@ -4,7 +4,7 @@
 % regression analysis --> for each month of the wet season, from October to
 % April 
 
-% Time period_ 1975-2023 
+% Time period shown is 1975-2023 
 
 % Calculate timeseries (reshaped into months) for all possible predictors
 
