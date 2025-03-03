@@ -326,7 +326,7 @@ else
     load ('OLR_NOAA.mat','lon','lat','olr','monthly_T')
 
 
-    years_available = 1975:2023;
+    years_available = 1974:2023;
     disp(['Available years OLR: ', num2str(years_available(1)), ' to ', num2str(years_available(end))]);
     
     if start_year < years_available(1) || end_year > years_available(end) || start_year >= end_year
@@ -335,8 +335,10 @@ else
     
     time_frame_1 = find(years_available >= start_year & years_available <= end_year-1);
 
-    % reshape into months years to match with shape of other variables 
-    input_olr = olr(:,:,time_frame_1(1)*12-11:time_frame_1(end)*12);  
+    % reshape into months years to match with shape of other variables -
+    % OLR starts in June 1974, adjust here to start in January
+    input_olr = olr(:,:,time_frame_1(1)+6:time_frame_1(end)*12-5);  
+    
     olr_monthly = reshape(input_olr,[length(lon) length(lat) 12 length(time_frame_1)]);
 
     [Lat,Lon] = meshgrid(lat,lon);
@@ -411,15 +413,15 @@ elseif strcmp('OLR',large_scale_variable)
         
         % Standardize climate variable
         std_field = std(input_field, 0, 3,'omitnan');
-        mean_field = mean(input_field, 3);
-        input_field = (input_field - mean_field) ./ std_field;
+        mean_field = nanmean(input_field, 3);
+        input_std = (input_field - mean_field) ./ std_field;
         
         % Regression calculation
-        slope_matrix = NaN(length(lon), length(lat));
+        slope_matrix = zeros(length(lon), length(lat),1);
         for i = 1:length(lon)
             for j = 1:length(lat)
                 % find NaNs in OLR timeseries 
-                olr_squeezed = squeeze(input_field(i,j,:))';
+                olr_squeezed = squeeze(input_std(i,j,:))';
                 validrows_olr = ~any(isnan(olr_squeezed), 1);
     
                 % filter out NaNs in both timeseries
@@ -446,7 +448,7 @@ elseif strcmp('OLR',large_scale_variable)
         
 
         % also get rid of NaNs for correlation and p values
-        olr_no_nans_all = input_olr_std(:,:,validrows_olr);
+        olr_no_nans_all = input_std(:,:,validrows_olr);
         olr_no_nans_all = olr_no_nans_all(:,:,validrows_rain);
         
         % save p values for plotting 
