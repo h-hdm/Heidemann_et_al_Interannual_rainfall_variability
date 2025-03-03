@@ -335,7 +335,7 @@ else
 
     % reshape into months years to match with shape of other variables 
     input_olr = olr(:,:,time_frame_1(1)*12-11:time_frame_1(end)*12);  
-    olr_monthly = reshape(input_evap,[length(lon) length(lat) 12 length(time_frame_1)]);
+    olr_monthly = reshape(input_olr,[length(lon) length(lat) 12 length(time_frame_1)]);
 
     [Lat,Lon] = meshgrid(lat,lon);
     
