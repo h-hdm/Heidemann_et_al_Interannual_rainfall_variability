@@ -13,15 +13,15 @@ The SAM index (Marshall, 2003) can be downloaded at https://legacy.bas.ac.uk/met
 
 Figure 1: Figure_1_global_schematic.m
 
-Figure 2: Figure_2_regression_maps_SSTa_MSLP.m, Global_SSTa_rain_regression_Oct_Apr.m, Global_MSLP_wind_rainfall_regression_Oct_Apr.m
+Figure 2: Figure_2_regression_maps_SSTa_MSLP.m, Large_scale_regression_Oct_Apr.m 
 
-Figure 3: Figure_3_Regression_OLR_hgt.m, Global_OLR_rain_regression_Oct_Apr.m, Global_hgt_z200_rain_regression_Oct_Apr.m
+Figure 3: Figure_3_Regression_OLR_hgt.m, Large_scale_regression_Oct_Apr.m
 
-Figure 4: Figure_4_regression_evap_sm.m, Australian_evap_rain_regression_Oct_Apr.m, Australian_smlagminus1_rainfall_regression_Oct_Apr.m
+Figure 4: Figure_4_regression_evap_sm.m, Large_scale_regression_Oct_Apr.m
 
 Figure 5: Figure_5_monthly_correlation_each_predictor, NA_rainfall_ts.m, get_SST_indices_func.m, get_non_oceanic_indices_func.m, get_mjo_freq_func.m
 
-Figure 6: Figure_6_predictor_x_predictor_R_monthly.m, get_SST_indices_func.m, get_non_oceanic_indices_func.m, get_mjo_freq_func.m
+Figure 6: Figure_6_predictor_x_predictor_R_monthly_1975.m, get_SST_indices_func.m, get_non_oceanic_indices_func.m, get_mjo_freq_func.m
 
 Figure 7: Figure_7_stacked_bar_plots_improved.m, stepwiselm_calculation_all_ts.m, NA_rainfall_ts.m, get_SST_indices_func.m, get_non_oceanic_indices_func.m, get_mjo_freq_func.m, choose_months_stepwise.m, stepwiselm_table_func.m, manual_stepwiselm_func.m
 
