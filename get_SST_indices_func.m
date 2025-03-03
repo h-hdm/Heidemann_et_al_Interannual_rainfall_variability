@@ -35,7 +35,7 @@ load 'HadISST_1870_2023.mat'
    
     SST_climatology = squeeze(nanmean(SST_resized(:,:,:,time_frame_1), 4));
     SST_anom = SST_resized(:,:,:,time_frame_1) - SST_climatology;
-    SST_anomaly_ts = reshape(SST_anom,[length(glon) length(glat) 12 length(time_frame_1)]);
+    SST_anomaly_ts = reshape(SST_anom,[length(glon) length(glat) 12*length(time_frame_1)]);
 
     t1 = datetime(start_year,1,15,0,0,0);
     t2 = datetime(end_year-1,12,15,0,0,0);
