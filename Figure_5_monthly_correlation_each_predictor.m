@@ -1,10 +1,9 @@
 % Figure 5 in Heidemann et al. (2025)
 
-% matrix/image plot that shows the correlation between NW/NE Australian
-% rainfall and each included predictor, during each month between October and April 
-% (in one figure for NE and one figure for NW Australia)
+% matrix/image plot that shows the monthly correlation coefficient between NW/NE Australian
+% rainfall and indices that are used as predictors in stepwise linear regression   
 
-
+% 1975-2023
 
 % monthly correlation coefficient between 1) rainfall timeseries over a chosen region in Australia 
 % (coded for NE or NW Australia) 
@@ -19,42 +18,23 @@
 % also add indication of if a predictor is included in stepwise model or
 % not 
 
-% 1) calculate NW and NE Australian rainfall 
-% get timeseries for each subperiod 
+% 1) calculate NW and NE Australian rainfall timeseries
 
-[rain_NW_1920,rain_NE_1920,~]=NA_rainfall_ts('1920-2023');
-[rain_NW_1940,rain_NE_1940,~]=NA_rainfall_ts('1940-2023');
-[rain_NW_1957,rain_NE_1957,~]=NA_rainfall_ts('1957-2023');
 [rain_NW_1975,rain_NE_1975,~]=NA_rainfall_ts('1975-2023');
 
 
 % 2) calculate timeseries (reshaped into months) for all possible input predictors
 
-
-% get SST indices for predictors  --> works for all time periods
+% SST indices 
  [Nino34_std,CP_std,EP_std,DMI_std,Coral_std,Timor_std,...
      Arafura_std,IOBW_std,TPI_filt,Ningaloo_std,C_std,E_std]=get_SST_indices_func('1975-2023'); 
 
-
-
- % get feedbacks and other indices --> depending on the time periods output
- % varies, choose option here:
-
-    [yearly_T,SM_NE_anom_std,SM_NW_anom_std,etot_NE_anom_std,...
-    etot_NW_anom_std]=get_non_oceanic_indices_func('1975-2023'); % from '1920-2023'
-
- 
+% feedbacks and other non-SST indices 
     [~,~,~,~,...
-    ~,evap,TBO]=get_non_oceanic_indices_func('1975-2023'); % from '1940-2023'
- 
-   
-    [~,~,~,~,...
-    ~,~,~,AM_SAM]=get_non_oceanic_indices_func('1975-2023'); % from '1957-2023' 
+    ~,~,~,AM_SAM]=get_non_oceanic_indices_func('1975-2023'); 
 
-
-    [MJO_456_std,MJO_567_std,MJO_81_std,MJO_inactive_std]=get_mjo_freq_func; % post 1975 only 
-
-
+% MJO 
+ [MJO_456_std,MJO_567_std,MJO_81_std,MJO_inactive_std]=get_mjo_freq_func; 
 
 
 %% correlation for each month, per predictor --> this displays corerlation matrix 
