@@ -365,10 +365,10 @@ if strcmp('soil moisture lag-1',large_scale_variable)
         input_field = squeeze(var_anom_detr(:,:,month_idx-1,2:end));
         else
             month_idx<=1
-        input_field = squeeze(var_anom_detr(:,:,month_idx-1,1:end-1));
+        input_field = squeeze(var_anom_detr(:,:,12,1:end-1));
         end 
     
-        input_rain = rainfall_NA_anom_std(month_idx, :);
+        input_rain = rainfall_NA_anom_std(month_idx, 2:end);
         
         % Standardize climate variable
         std_field = std(input_field, 0, 3,'omitnan');
