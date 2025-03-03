@@ -23,9 +23,8 @@
 % relationships between predictors, uncertainty about relationships etc. 
 
 % first set time period to analyse 
-time_period = '1959-2023'
+time_period = '1975-2023'
 % currently works for: 1920-2023; 1940-2023,1957-2023, 1975-2023
-% currently setting up to also work for 1959-2023
 
 % 1) calculate NW and NE Australian rainfall to be used as predictand/response
 % variable in stepwise lineare regression 
@@ -48,11 +47,6 @@ time_period = '1959-2023'
     [yearly_T,SM_NE_anom_std,SM_NW_anom_std,etot_NE_anom_std,...
     etot_NW_anom_std,evap,TBO]=get_non_oceanic_indices_func(time_period); 
 
- elseif strcmp('1959-2023',time_period); 
-    [yearly_T,SM_NE_anom_std,SM_NW_anom_std,etot_NE_anom_std,...
-    etot_NW_anom_std,evap,TBO,AM_SAM,MSE]=get_non_oceanic_indices_func(time_period); 
-
-
  else 
      strcmp('1957-2023',time_period) || strcmp('1975-2023',time_period);
     [yearly_T,SM_NE_anom_std,SM_NW_anom_std,etot_NE_anom_std,...
@@ -71,12 +65,12 @@ end
 %% set which month to analyse and run built-in function for stepwise linear 
 % regression 
 
-% choose month - all months possible 
+% choose month - all months possible (e.g. month=4)
 month=4
 
 % set region to analyse (response variable) --> works for NE or NW
 % Australia
-region = 'NE' % or 'NW' or 'NE'
+region = 'NE' % 'NW' or 'NE'
 
 
 idx_last = length(rain_NW);
@@ -116,13 +110,6 @@ elseif strcmp('1957-2023',time_period)
      Arafura_std,IOBW_std,TPI_filt,Ningaloo_std,C_std,E_std,SM_NE_anom_std,SM_NW_anom_std,etot_NE_anom_std,...
     etot_NW_anom_std,evap,TBO,AM_SAM);
 
-elseif strcmp('1959-2023',time_period) 
-    [response_variable,CP,EP,Coral,Timor,Arafura,DMI,IOBW,TPI,Ningaloo,Nino34_lag_minus1,C,E,SM_lag_minus1,...
-    ET_lag_minus1,NW_oceanic_evap,TBO_m,SAM,MSE_NS]=choose_months_stepwise(region,month,time_period,rain_NW,rain_NE,...
-    Nino34_std,CP_std,EP_std,DMI_std,Coral_std,Timor_std,...
-     Arafura_std,IOBW_std,TPI_filt,Ningaloo_std,C_std,E_std,SM_NE_anom_std,SM_NW_anom_std,etot_NE_anom_std,...
-    etot_NW_anom_std,evap,TBO,AM_SAM,MSE);    
-
 else
     strcmp('1975-2023',time_period)
      [response_variable,CP,EP,Coral,Timor,Arafura,DMI,IOBW,TPI,Ningaloo,Nino34_lag_minus1,C,E,SM_lag_minus1,...
@@ -154,12 +141,6 @@ elseif strcmp('1957-2023',time_period)
 [Input_table]=stepwiselm_table_func(time_period,month,region,response_variable,...
     CP,EP,Coral,Timor,Arafura,DMI,IOBW,TPI,Ningaloo,Nino34_lag_minus1,SM_lag_minus1,...
     ET_lag_minus1,NW_oceanic_evap,TBO_m,SAM);
-
-elseif strcmp('1959-2023',time_period)
-
-[Input_table]=stepwiselm_table_func(time_period,month,region,response_variable,...
-    CP,EP,Coral,Timor,Arafura,DMI,IOBW,TPI,Ningaloo,Nino34_lag_minus1,SM_lag_minus1,...
-    ET_lag_minus1,NW_oceanic_evap,TBO_m,SAM,MSE_NS);
 
 else
     strcmp('1975-2023',time_period)
